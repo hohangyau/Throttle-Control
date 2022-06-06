@@ -18,11 +18,19 @@ To run the project
 example to submit a marketdata via Postman:
 
 method: post
+
 url: localhost:8080/api/v1/marketData
+
 {
     "bid":100,
+    
     "ask":100,
+    
     "last": 100,
+    
     "symbol": "btc",
+    
     "updateTime": "2022-06-06T16:17:27.904"
+    
 }
+
