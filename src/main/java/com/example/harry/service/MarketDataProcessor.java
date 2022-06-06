@@ -61,34 +61,33 @@ public class MarketDataProcessor {
 
 
     public void onMessage(MarketData marketData){
-
+        //assume data validation is done at api or data receiving level
         Bucket bucket = resolveBucket("default");
         ConsumptionProbe probe = bucket.tryConsumeAndReturnRemaining(1);
         if (probe.isConsumed()) {
            onSucess(marketData);
            return;
-           //return String.format("%d",bucket.getAvailableTokens());
         }
         System.out.println("exceed limit, will add to buffer queue");
-        //long waitForRefill = probe.getNanosToWaitForRefill();
         onFailure(marketData);
     }
 
     private void onSucess(MarketData marketData){
 
-        //symbol doesn't in the pending to publish queue, simply add it
-        System.out.println(marketData.toString());
+        //symbol doesn't exist in the pending-to-publish queue, simply add it
         if(!pendingToPublish.containsKey(marketData.getSymbol())){
             pendingToPublish.put(marketData.getSymbol(), marketData);
-            return;// marketData.toString();
+            return;
         }
 
-        //sysbol already exists in the queue, check update time and replace if it's after
+        //sysbol already exists in the queue, check update time and replace if current data is more updated
         MarketData exiting = pendingToPublish.get(marketData.getSymbol());
         if(marketData.getUpdateTime().isAfter(exiting.getUpdateTime())){
             pendingToPublish.replace(marketData.getSymbol(), marketData); 
             return;
         }
+
+        //do nothing otherwise
 
     }
 
