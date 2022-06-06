@@ -10,7 +10,7 @@ To run the project
     
     -cd to the dir
     
-    -install dependencywith command: (Windows)"mvnw.cmd clean install" / (Mac) "mvnw clean install"
+    -install dependencies with command: (Windows)"mvnw.cmd clean install" / (Mac) "mvnw clean install"
     
     -start application with command: (Windows)"mvnw.cmd spring-boot:run" / (Mac) "mvnw spring-boot:run" 
     
