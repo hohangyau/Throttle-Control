@@ -1,6 +1,8 @@
 This is simple SpringBoot project with trottle control
     -Java version: 1.8
+    
     -Dependency: bucket4j-core (used to limiting the calls to onMessage method)
+    
 To run the project
     -clone the project to a local dir
     -cd to the dir
