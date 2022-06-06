@@ -3,9 +3,9 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.harry.entity.MarketData;
@@ -18,7 +18,7 @@ public class MarketDataController {
     MarketDataProcessor marketDataProcessor;
 
     @GetMapping(value = "/api/v1/health")
-    public String healthCheck() throws InterruptedException{
+    public String healthCheck(){
         MarketData data = new MarketData();
         data.setBid(new BigDecimal(100));
         data.setAsk(new BigDecimal(100));
@@ -26,13 +26,14 @@ public class MarketDataController {
         data.setUpdateTime(LocalDateTime.now());
         data.setSymbol("btc");
         System.out.println("on message " + LocalDateTime.now().toString());
-        return marketDataProcessor.onMessage(data);
-      //  return "Hello Market Data";
+      //  return marketDataProcessor.onMessage(data);
+        return "Hello Market Data";
     }
 
     @PostMapping(value = "/api/v1/marketData")
-    public String resolve() {
-
+    public String resolve(@RequestBody MarketData data) {
+        if( data.getUpdateTime() == null) data.setUpdateTime(LocalDateTime.now());
+        marketDataProcessor.onMessage(data);
         return "ok";
     }
 }
